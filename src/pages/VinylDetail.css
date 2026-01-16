@@ -1,0 +1,380 @@
+.vinyl-detail-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.vinyl-detail-header {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  background: white;
+  color: #667eea;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-back:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-edit {
+  background: #ffc107;
+  color: #333;
+}
+
+.btn-edit:hover {
+  background: #ffb300;
+  transform: translateY(-2px);
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+  transform: translateY(-2px);
+}
+
+.vinyl-detail-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 0;
+}
+
+.vinyl-image-large {
+  width: 100%;
+  height: 500px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vinyl-image-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vinyl-placeholder-large {
+  font-size: 120px;
+  opacity: 0.3;
+}
+
+.vinyl-info-detail {
+  padding: 40px;
+}
+
+.vinyl-title-large {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.vinyl-artist-large {
+  font-size: 24px;
+  font-weight: 400;
+  color: #666;
+  margin: 0 0 30px 0;
+}
+
+.vinyl-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.metadata-item {
+  display: flex;
+  gap: 10px;
+}
+
+.metadata-label {
+  font-weight: 600;
+  color: #555;
+  min-width: 100px;
+}
+
+.metadata-value {
+  color: #333;
+}
+
+.vinyl-price-large {
+  font-size: 24px;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.vinyl-description {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid #f0f0f0;
+}
+
+.vinyl-description h3 {
+  font-size: 20px;
+  margin: 0 0 15px 0;
+  color: #333;
+}
+
+.vinyl-description p {
+  color: #666;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.comments-section {
+  max-width: 1200px;
+  margin: 40px auto 0;
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.comments-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 30px 0;
+  color: #333;
+}
+
+.comment-form {
+  margin-bottom: 30px;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-submit-comment {
+  padding: 12px 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.btn-submit-comment:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-submit-comment:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.no-comments {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  font-style: italic;
+}
+
+.comment-item {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  border-left: 4px solid #667eea;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.comment-author {
+  font-weight: 600;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 13px;
+  color: #999;
+}
+
+.comment-content {
+  color: #555;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+  white-space: pre-wrap;
+}
+
+.btn-delete-comment {
+  padding: 6px 14px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-delete-comment:hover {
+  background: #c82333;
+}
+
+.login-prompt {
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-prompt p {
+  margin: 0;
+  color: #666;
+  font-size: 15px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #667eea;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-size: inherit;
+}
+
+.link-button:hover {
+  color: #5568d3;
+}
+
+.loading,
+.error-message {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 40px;
+  background: white;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loading {
+  color: #667eea;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 16px;
+}
+
+@media (max-width: 968px) {
+  .vinyl-detail-content {
+    grid-template-columns: 1fr;
+  }
+
+  .vinyl-image-large {
+    height: 400px;
+  }
+
+  .vinyl-info-detail {
+    padding: 30px 20px;
+  }
+
+  .vinyl-title-large {
+    font-size: 28px;
+  }
+
+  .vinyl-artist-large {
+    font-size: 20px;
+  }
+
+  .comments-section {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .vinyl-detail-container {
+    padding: 10px;
+  }
+
+  .vinyl-image-large {
+    height: 300px;
+  }
+
+  .vinyl-title-large {
+    font-size: 24px;
+  }
+
+  .vinyl-artist-large {
+    font-size: 18px;
+  }
+}

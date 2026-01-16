@@ -38,4 +38,40 @@ instance.interceptors.response.use(
   }
 );
 
+// Funciones del servicio de vinilos
+export const vinylService = {
+  getAllVinyls: (genre) => {
+    const url = genre ? `/vinyls?genre=${genre}` : '/vinyls';
+    return instance.get(url);
+  },
+
+  getVinylById: (id) => {
+    return instance.get(`/vinyls/${id}`);
+  },
+
+  createVinyl: (data) => {
+    return instance.post('/vinyls', data);
+  },
+
+  updateVinyl: (id, data) => {
+    return instance.put(`/vinyls/${id}`, data);
+  },
+
+  deleteVinyl: (id) => {
+    return instance.delete(`/vinyls/${id}`);
+  },
+
+  getComments: (id) => {
+    return instance.get(`/vinyls/${id}/comments`);
+  },
+
+  addComment: (id, { content, author }) => {
+    return instance.post(`/vinyls/${id}/comments`, { content, author });
+  },
+
+  deleteComment: (vinylId, commentId) => {
+    return instance.delete(`/vinyls/${vinylId}/comments/${commentId}`);
+  }
+};
+
 export default instance;

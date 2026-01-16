@@ -30,8 +30,16 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
+      console.log("Attempting login with:", email);
       const response = await axios.post("/auth/login", { email, password });
+      console.log("Login response:", response.data);
+      
       const { token: authToken, user: userData } = response.data;
+      
+      if (!authToken || !userData) {
+        console.error("Missing token or user data:", response.data);
+        throw new Error("Invalid response from server");
+      }
       
       // Guardar en estado
       setToken(authToken);
@@ -41,25 +49,35 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", authToken);
       localStorage.setItem("authUser", JSON.stringify(userData));
       
+      console.log("Login successful, token saved");
       return { success: true };
     } catch (error) {
       console.error("Error en login:", error);
+      console.error("Error response:", error.response?.data);
       return {
         success: false,
-        error: error.response?.data?.message || "Error al iniciar sesión"
+        error: error.response?.data?.message || error.message || "Error al iniciar sesión"
       };
     }
   };
 
   const register = async (email, password, username) => {
     try {
+      console.log("Attempting register with:", { email, username });
       const response = await axios.post("/auth/register", { 
         email, 
         password,
         passwordConfirm: password,
         username 
       });
+      console.log("Register response:", response.data);
+      
       const { token: authToken, user: userData } = response.data;
+      
+      if (!authToken || !userData) {
+        console.error("Missing token or user data:", response.data);
+        throw new Error("Invalid response from server");
+      }
       
       // Guardar en estado
       setToken(authToken);
@@ -69,12 +87,14 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("authToken", authToken);
       localStorage.setItem("authUser", JSON.stringify(userData));
       
+      console.log("Registration successful, token saved");
       return { success: true };
     } catch (error) {
       console.error("Error en registro:", error);
+      console.error("Error response:", error.response?.data);
       return {
         success: false,
-        error: error.response?.data?.message || "Error al registrarse"
+        error: error.response?.data?.message || error.message || "Error al registrarse"
       };
     }
   };

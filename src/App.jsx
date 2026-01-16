@@ -3,6 +3,9 @@ import { useAuth } from "./context/AuthContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
+import VinylDetail from "./pages/VinylDetail";
+import CreateVinyl from "./pages/CreateVinyl";
+import EditVinyl from "./pages/EditVinyl";
 import ProtectedRoute from "./components/ProtectedRoute";
 import './App.css'
 
@@ -34,12 +37,25 @@ function App() {
         element={isAuthenticated ? <Navigate to="/" replace /> : <Register />} 
       />
 
-      {/* Rutas protegidas */}
+      {/* Rutas accesibles sin autenticación */}
+      <Route path="/" element={<Home />} />
+      <Route path="/vinyls/:id" element={<VinylDetail />} />
+
+      {/* Rutas protegidas - requieren autenticación */}
       <Route
-        path="/"
+        path="/vinyls/create"
         element={
           <ProtectedRoute>
-            <Home />
+            <CreateVinyl />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/vinyls/:id/edit"
+        element={
+          <ProtectedRoute>
+            <EditVinyl />
           </ProtectedRoute>
         }
       />

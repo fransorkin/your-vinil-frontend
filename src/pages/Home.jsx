@@ -1,62 +1,113 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import api from "../api/axios";
+import VinylCard from "../components/VinylCard";
+import GenreFilter from "../components/GenreFilter";
+import "./Home.css";
 
 const Home = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [vinyls, setVinyls] = useState([]);
+  const [filteredVinyls, setFilteredVinyls] = useState([]);
+  const [selectedGenre, setSelectedGenre] = useState("Todos");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchVinyls();
+  }, []);
+
+  useEffect(() => {
+    if (selectedGenre === "Todos") {
+      setFilteredVinyls(vinyls);
+    } else {
+      setFilteredVinyls(vinyls.filter(vinyl => vinyl.genre === selectedGenre));
+    }
+  }, [selectedGenre, vinyls]);
+
+  const fetchVinyls = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get("/vinyls");
+      const vinylsData = response.data.data || response.data;
+      setVinyls(vinylsData);
+      setFilteredVinyls(vinylsData);
+      setError(null);
+    } catch (err) {
+      console.error("Error fetching vinyls:", err);
+      setError("Error al cargar los vinilos");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGenreChange = (genre) => {
+    setSelectedGenre(genre);
+  };
 
   return (
-    <div style={{ 
-      minHeight: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-    }}>
-      <div style={{
-        background: "white",
-        padding: "60px 80px",
-        borderRadius: "16px",
-        boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
-        textAlign: "center",
-        maxWidth: "500px"
-      }}>
-        <div style={{ fontSize: "64px", marginBottom: "20px" }}>✅</div>
-        
-        <h1 style={{ 
-          fontSize: "32px", 
-          marginBottom: "10px",
-          color: "#333"
-        }}>
-          ¡Has ingresado!
-        </h1>
-        
-        <p style={{ 
-          fontSize: "18px", 
-          color: "#666",
-          marginBottom: "30px"
-        }}>
-          Bienvenido/a, <strong>{user?.username || user?.email}</strong>
-        </p>
+    <div className="home-container">
+      <header className="home-header">
+        <div className="header-content">
+          <h1 className="home-title">🎵 Mi Colección de Vinilos</h1>
+          <div className="header-actions">
+            {user ? (
+              <>
+                <span className="user-welcome">Hola, {user?.username || user?.email}</span>
+                <button className="btn-create" onClick={() => navigate("/vinyls/create")}>
+                  + Nuevo Vinilo
+                </button>
+                <button className="btn-logout" onClick={logout}>
+                  Cerrar Sesión
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="btn-login" onClick={() => navigate("/login")}>
+                  Iniciar Sesión
+                </button>
+                <button className="btn-register" onClick={() => navigate("/register")}>
+                  Registrarse
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
 
-        <button 
-          onClick={logout}
-          style={{
-            padding: "14px 32px",
-            background: "#dc3545",
-            color: "white",
-            border: "none",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontWeight: "600",
-            fontSize: "16px",
-            transition: "transform 0.2s",
-            width: "100%"
-          }}
-          onMouseOver={(e) => e.target.style.transform = "translateY(-2px)"}
-          onMouseOut={(e) => e.target.style.transform = "translateY(0)"}
-        >
-          Cerrar Sesión
-        </button>
-      </div>
+      <main className="home-main">
+        <GenreFilter 
+          selectedGenre={selectedGenre} 
+          onGenreChange={handleGenreChange} 
+        />
+
+        {loading && (
+          <div className="loading">Cargando vinilos...</div>
+        )}
+
+        {error && (
+          <div className="error-message">{error}</div>
+        )}
+
+        {!loading && !error && filteredVinyls.length === 0 && (
+          <div className="empty-state">
+            <p className="empty-text">No hay vinilos disponibles</p>
+            <button className="btn-create-empty" onClick={() => navigate("/vinyls/create")}>
+              Agregar primer vinilo
+            </button>
+          </div>
+        )}
+
+        {!loading && !error && filteredVinyls.length > 0 && (
+          <div className="vinyls-grid">
+            {filteredVinyls.map((vinyl) => (
+              <VinylCard key={vinyl._id} vinyl={vinyl} />
+            ))}
+          </div>
+        )}
+      </main>
     </div>
   );
 };

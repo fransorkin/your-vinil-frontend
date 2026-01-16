@@ -1,0 +1,43 @@
+.genre-filter {
+  margin-bottom: 30px;
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.genre-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.genre-button {
+  padding: 8px 20px;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.genre-button:hover {
+  background: #f0f0ff;
+  transform: translateY(-2px);
+}
+
+.genre-button.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+.genre-button.active:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #654091 100%);
+}
