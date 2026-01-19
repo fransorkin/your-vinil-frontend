@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import api from "../api/axios";
 import VinylCard from "../components/VinylCard";
 import GenreFilter from "../components/GenreFilter";
-import "./Home.css";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Home = () => {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [vinyls, setVinyls] = useState([]);
   const [filteredVinyls, setFilteredVinyls] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("Todos");
@@ -37,7 +33,7 @@ const Home = () => {
       setError(null);
     } catch (err) {
       console.error("Error fetching vinyls:", err);
-      setError("Error al cargar los vinilos");
+      setError("Error al cargar los vinilos. Por favor intenta de nuevo.");
     } finally {
       setLoading(false);
     }
@@ -47,67 +43,56 @@ const Home = () => {
     setSelectedGenre(genre);
   };
 
-  return (
-    <div className="home-container">
-      <header className="home-header">
-        <div className="header-content">
-          <h1 className="home-title">🎵 Mi Colección de Vinilos</h1>
-          <div className="header-actions">
-            {user ? (
-              <>
-                <span className="user-welcome">Hola, {user?.username || user?.email}</span>
-                <button className="btn-create" onClick={() => navigate("/vinyls/create")}>
-                  + Nuevo Vinilo
-                </button>
-                <button className="btn-logout" onClick={logout}>
-                  Cerrar Sesión
-                </button>
-              </>
-            ) : (
-              <>
-                <button className="btn-login" onClick={() => navigate("/login")}>
-                  Iniciar Sesión
-                </button>
-                <button className="btn-register" onClick={() => navigate("/register")}>
-                  Registrarse
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
-      <main className="home-main">
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+        <div className="bg-gradient-to-r from-red-900/30 to-red-950/30 border border-red-800/50 text-red-200 px-6 py-4 rounded-xl backdrop-blur-sm">
+          <p className="font-semibold">⚠️ {error}</p>
+          <button 
+            onClick={fetchVinyls}
+            className="mt-3 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg border border-red-700/30"
+          >
+            Reintentar
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+      <div className="mb-8">
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-200 via-orange-300 to-amber-400 bg-clip-text text-transparent mb-3">Mi Colección de Vinilos</h1>
+        <p className="text-amber-700 text-lg">{filteredVinyls.length} vinilos encontrados</p>
+      </div>
+
+      <div className="mb-8">
         <GenreFilter 
           selectedGenre={selectedGenre} 
           onGenreChange={handleGenreChange} 
         />
+      </div>
 
-        {loading && (
-          <div className="loading">Cargando vinilos...</div>
-        )}
-
-        {error && (
-          <div className="error-message">{error}</div>
-        )}
-
-        {!loading && !error && filteredVinyls.length === 0 && (
-          <div className="empty-state">
-            <p className="empty-text">No hay vinilos disponibles</p>
-            <button className="btn-create-empty" onClick={() => navigate("/vinyls/create")}>
-              Agregar primer vinilo
-            </button>
-          </div>
-        )}
-
-        {!loading && !error && filteredVinyls.length > 0 && (
-          <div className="vinyls-grid">
-            {filteredVinyls.map((vinyl) => (
-              <VinylCard key={vinyl._id} vinyl={vinyl} />
-            ))}
-          </div>
-        )}
-      </main>
+      {filteredVinyls.length === 0 ? (
+        <div className="text-center py-16">
+          <p className="text-amber-400 text-lg mb-4">No hay vinilos en este género</p>
+          <p className="text-amber-700 text-sm">Intenta seleccionar otro género o agrega nuevos vinilos</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filteredVinyls.map((vinyl) => (
+            <VinylCard key={vinyl._id} vinyl={vinyl} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

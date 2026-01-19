@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import VinylForm from "../components/VinylForm";
+import LoadingSpinner from "../components/LoadingSpinner";
 import api from "../api/axios";
-import "./EditVinyl.css";
 
 const EditVinyl = () => {
   const { id } = useParams();
@@ -19,7 +19,8 @@ const EditVinyl = () => {
     try {
       setLoading(true);
       const response = await api.get(`/vinyls/${id}`);
-      setVinyl(response.data);
+      const vinylData = response.data.data || response.data;
+      setVinyl(vinylData);
       setError(null);
     } catch (err) {
       console.error("Error fetching vinyl:", err);
@@ -43,17 +44,22 @@ const EditVinyl = () => {
 
   if (loading) {
     return (
-      <div className="edit-vinyl-container">
-        <div className="loading">Cargando vinilo...</div>
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <LoadingSpinner />
       </div>
     );
   }
 
   if (error || !vinyl) {
     return (
-      <div className="edit-vinyl-container">
-        <div className="error-message">{error || "Vinilo no encontrado"}</div>
-        <button className="btn-back" onClick={() => navigate("/")}>
+      <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+        <div className="bg-gradient-to-r from-red-900/30 to-red-950/30 border border-red-800/50 text-red-200 px-6 py-4 rounded-xl backdrop-blur-sm">
+          {error || "Vinilo no encontrado"}
+        </div>
+        <button 
+          className="mt-4 text-amber-700 hover:text-amber-400 flex items-center gap-2 transition-colors"
+          onClick={() => navigate("/")}
+        >
           ← Volver
         </button>
       </div>
@@ -61,22 +67,23 @@ const EditVinyl = () => {
   }
 
   return (
-    <div className="edit-vinyl-container">
-      <div className="edit-vinyl-content">
-        <div className="page-header">
-          <button className="btn-back" onClick={() => navigate(`/vinyls/${id}`)}>
-            ← Volver
-          </button>
-          <h1 className="page-title">Editar Vinilo</h1>
-        </div>
+    <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
+      <div className="mb-8">
+        <button 
+          className="text-amber-700 hover:text-amber-400 mb-4 flex items-center gap-2 transition-colors"
+          onClick={() => navigate(`/vinyls/${id}`)}
+        >
+          ← Volver
+        </button>
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-200 to-orange-300 bg-clip-text text-transparent">Editar Vinilo</h1>
+      </div>
 
-        <div className="form-container">
-          <VinylForm 
-            initialData={vinyl}
-            onSubmit={handleSubmit} 
-            submitButtonText="Guardar Cambios" 
-          />
-        </div>
+      <div className="bg-gradient-to-br from-stone-900 to-amber-950 border border-amber-900/30 rounded-2xl shadow-2xl p-8">
+        <VinylForm 
+          initialData={vinyl}
+          onSubmit={handleSubmit} 
+          submitButtonText="Guardar Cambios" 
+        />
       </div>
     </div>
   );

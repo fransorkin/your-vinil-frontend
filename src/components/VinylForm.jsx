@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "./VinylForm.css";
 
 const VinylForm = ({ initialData = {}, onSubmit, submitButtonText = "Guardar" }) => {
   const [formData, setFormData] = useState({
@@ -136,66 +135,66 @@ const VinylForm = ({ initialData = {}, onSubmit, submitButtonText = "Guardar" })
   };
 
   return (
-    <form className="vinyl-form" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label htmlFor="title" className="form-label">
-          Título <span className="required">*</span>
+    <form className="max-w-2xl mx-auto space-y-6" onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="title" className="block text-amber-400 font-medium mb-2">
+          Título <span className="text-red-400">*</span>
         </label>
         <input
           type="text"
           id="title"
           name="title"
-          className={`form-input ${errors.title ? "error" : ""}`}
+          className={`w-full bg-stone-950/50 border ${ errors.title ? 'border-red-500' : 'border-amber-800/40'} rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all`}
           value={formData.title}
           onChange={handleChange}
           placeholder="Ej: Abbey Road"
         />
-        {errors.title && <span className="error-message">{errors.title}</span>}
+        {errors.title && <span className="text-red-400 text-sm mt-1 block">{errors.title}</span>}
       </div>
 
-      <div className="form-group">
-        <label htmlFor="artist" className="form-label">
-          Artista <span className="required">*</span>
+      <div>
+        <label htmlFor="artist" className="block text-amber-400 font-medium mb-2">
+          Artista <span className="text-red-400">*</span>
         </label>
         <input
           type="text"
           id="artist"
           name="artist"
-          className={`form-input ${errors.artist ? "error" : ""}`}
+          className={`w-full bg-stone-950/50 border ${errors.artist ? 'border-red-500' : 'border-amber-800/40'} rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all`}
           value={formData.artist}
           onChange={handleChange}
           placeholder="Ej: The Beatles"
         />
-        {errors.artist && <span className="error-message">{errors.artist}</span>}
+        {errors.artist && <span className="text-red-400 text-sm mt-1 block">{errors.artist}</span>}
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="releaseYear" className="form-label">
-            Año de Lanzamiento <span className="required">*</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label htmlFor="releaseYear" className="block text-amber-400 font-medium mb-2">
+            Año de Lanzamiento <span className="text-red-400">*</span>
           </label>
           <input
             type="number"
             id="releaseYear"
             name="releaseYear"
-            className={`form-input ${errors.releaseYear ? "error" : ""}`}
+            className={`w-full bg-stone-950/50 border ${errors.releaseYear ? 'border-red-500' : 'border-amber-800/40'} rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all`}
             value={formData.releaseYear}
             onChange={handleChange}
             placeholder="Ej: 1969"
             min="1900"
             max={new Date().getFullYear()}
           />
-          {errors.releaseYear && <span className="error-message">{errors.releaseYear}</span>}
+          {errors.releaseYear && <span className="text-red-400 text-sm mt-1 block">{errors.releaseYear}</span>}
         </div>
 
-        <div className="form-group">
-          <label htmlFor="genre" className="form-label">
-            Género <span className="required">*</span>
+        <div>
+          <label htmlFor="genre" className="block text-amber-400 font-medium mb-2">
+            Género <span className="text-red-400">*</span>
           </label>
           <select
             id="genre"
             name="genre"
-            className={`form-select ${errors.genre ? "error" : ""}`}
+            className={`w-full bg-stone-950/50 border ${errors.genre ? 'border-red-500' : 'border-amber-800/40'} rounded-xl px-4 py-3 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all`}
             value={formData.genre}
             onChange={handleChange}
           >
@@ -204,68 +203,66 @@ const VinylForm = ({ initialData = {}, onSubmit, submitButtonText = "Guardar" })
               <option key={genre} value={genre}>{genre}</option>
             ))}
           </select>
-          {errors.genre && <span className="error-message">{errors.genre}</span>}
+          {errors.genre && <span className="text-red-400 text-sm mt-1 block">{errors.genre}</span>}
         </div>
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label htmlFor="condition" className="form-label">
-            Estado
-          </label>
-          <select
-            id="condition"
-            name="condition"
-            className="form-select"
-            value={formData.condition}
-            onChange={handleChange}
-          >
-            <option value="">Seleccionar estado</option>
-            {conditions.map(condition => (
-              <option key={condition} value={condition}>{condition}</option>
-            ))}
-          </select>
-        </div>
+      <div>
+        <label htmlFor="condition" className="block text-amber-400 font-medium mb-2">
+          Estado
+        </label>
+        <select
+          id="condition"
+          name="condition"
+          className="w-full bg-stone-950/50 border border-amber-800/40 rounded-xl px-4 py-3 text-amber-100 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all"
+          value={formData.condition}
+          onChange={handleChange}
+        >
+          <option value="">Seleccionar estado</option>
+          {conditions.map(condition => (
+            <option key={condition} value={condition}>{condition}</option>
+          ))}
+        </select>
       </div>
 
-      <div className="form-group">
-        <label htmlFor="image" className="form-label">
+      <div>
+        <label htmlFor="image" className="block text-amber-400 font-medium mb-2">
           URL de la Imagen
         </label>
         <input
           type="url"
           id="image"
           name="image"
-          className="form-input"
+          className="w-full bg-stone-950/50 border border-amber-800/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all"
           value={formData.image}
           onChange={handleChange}
           placeholder="https://ejemplo.com/imagen.jpg"
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="purchaseLocation" className="form-label">
+      <div>
+        <label htmlFor="purchaseLocation" className="block text-amber-400 font-medium mb-2">
           Lugar de Compra
         </label>
         <input
           type="text"
           id="purchaseLocation"
           name="purchaseLocation"
-          className="form-input"
+          className="w-full bg-stone-950/50 border border-amber-800/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all"
           value={formData.purchaseLocation}
           onChange={handleChange}
           placeholder="Ej: Tienda de discos vintage, mercado de pulgas..."
         />
       </div>
 
-      <div className="form-group">
-        <label htmlFor="description" className="form-label">
+      <div>
+        <label htmlFor="description" className="block text-amber-400 font-medium mb-2">
           Descripción
         </label>
         <textarea
           id="description"
           name="description"
-          className="form-textarea"
+          className="w-full bg-stone-950/50 border border-amber-800/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 transition-all"
           value={formData.description}
           onChange={handleChange}
           placeholder="Notas adicionales sobre el vinilo..."
@@ -275,7 +272,7 @@ const VinylForm = ({ initialData = {}, onSubmit, submitButtonText = "Guardar" })
 
       <button 
         type="submit" 
-        className="btn-submit"
+        className="w-full bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-600 hover:to-orange-600 disabled:from-stone-800 disabled:to-stone-900 text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-lg shadow-amber-950/50 border border-amber-600/30"
         disabled={submitting}
       >
         {submitting ? "Guardando..." : submitButtonText}

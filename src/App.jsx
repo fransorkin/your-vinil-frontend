@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import LoadingSpinner from "./components/LoadingSpinner";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -7,26 +9,22 @@ import VinylDetail from "./pages/VinylDetail";
 import CreateVinyl from "./pages/CreateVinyl";
 import EditVinyl from "./pages/EditVinyl";
 import ProtectedRoute from "./components/ProtectedRoute";
-import './App.css'
 
 function App() {
   const { isAuthenticated, loading } = useAuth();
 
   if (loading) {
     return (
-      <div style={{ 
-        display: "flex", 
-        justifyContent: "center", 
-        alignItems: "center", 
-        height: "100vh" 
-      }}>
-        <p>Cargando aplicación...</p>
+      <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-stone-950 to-amber-950">
+        <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <Routes>
+    <div className="min-h-screen bg-gradient-to-br from-stone-950 to-amber-950">
+      <Navbar />
+      <Routes>
       {/* Rutas públicas */}
       <Route 
         path="/login" 
@@ -63,6 +61,7 @@ function App() {
       {/* Ruta por defecto */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+    </div>
   )
 }
 
