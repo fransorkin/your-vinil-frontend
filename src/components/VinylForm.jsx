@@ -35,24 +35,24 @@ const VinylForm = ({ initialData = {}, onSubmit, submitButtonText = "Guardar" })
     "Pop",
     "Jazz",
     "Blues",
-    "Classical",
-    "Electronic",
+    "Clásica",
+    "Electrónica",
     "Hip-Hop",
     "R&B",
     "Country",
     "Reggae",
     "Metal",
     "Folk",
-    "Other"
+    "Otro"
   ];
 
   const conditions = [
-    "Mint",
-    "Near Mint",
-    "Very Good",
-    "Good",
-    "Fair",
-    "Poor"
+    "Nuevo",
+    "Casi Nuevo",
+    "Muy Bueno",
+    "Bueno",
+    "Regular",
+    "Pobre"
   ];
 
   const handleChange = (e) => {

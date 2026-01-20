@@ -137,12 +137,12 @@ const VinylDetail = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-        <div className="bg-gradient-to-br from-stone-900 to-amber-950 rounded-2xl overflow-hidden shadow-2xl border border-amber-900/30">
+        <div className="bg-gradient-to-br from-stone-900 to-amber-950 rounded-2xl overflow-hidden shadow-2xl border border-amber-900/30 group">
           {vinyl.image ? (
             <img 
               src={vinyl.image} 
               alt={vinyl.title}
-              className="w-full aspect-square object-cover sepia-[0.15]"
+              className="w-full aspect-square object-cover sepia-[0.15] group-hover:sepia-0 transition-all duration-500 group-hover:scale-105"
             />
           ) : (
             <div className="w-full aspect-square flex items-center justify-center bg-stone-950 text-8xl text-amber-900">
@@ -188,24 +188,27 @@ const VinylDetail = () => {
       </div>
 
       <div className="bg-gradient-to-br from-stone-900 to-amber-950 rounded-2xl shadow-2xl p-8 border border-amber-900/30">
-        <h3 className="text-3xl font-bold text-amber-100 mb-8">Comentarios ({comments.length})</h3>
+        <h3 className="text-3xl font-bold text-amber-100 mb-2">Comentarios</h3>
+        <p className="text-amber-600 mb-8 font-medium">{comments.length} {comments.length === 1 ? 'comentario' : 'comentarios'}</p>
 
         {user ? (
-          <form className="mb-8" onSubmit={handleSubmitComment}>
+          <form className="mb-8 bg-gradient-to-br from-amber-950/30 to-stone-950/30 p-6 rounded-xl border border-amber-800/50" onSubmit={handleSubmitComment}>
+            <label className="block text-amber-300 font-semibold mb-3 text-sm uppercase tracking-wide">
+              💬 Agregar un comentario
+            </label>
             <textarea
-              className="w-full bg-stone-950/50 border border-amber-800/40 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-600/50 mb-4 transition-all"
-              placeholder="Escribe un comentario..."
+              className="w-full bg-stone-950/70 border border-amber-800/50 rounded-xl px-4 py-3 text-amber-100 placeholder-amber-800 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/50 mb-4 transition-all resize-none"
+              placeholder="Comparte tu opinión sobre este vinilo..."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              rows="3"
-              disabled={submittingComment}
+              rows="4"
             />
             <button 
               type="submit" 
-              className="bg-gradient-to-r from-amber-700 to-orange-700 hover:from-amber-600 hover:to-orange-600 disabled:from-stone-800 disabled:to-stone-900 text-white font-semibold px-6 py-2.5 rounded-xl transition-all duration-200 shadow-lg shadow-amber-950/50 border border-amber-600/30"
+              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 disabled:from-stone-700 disabled:to-stone-800 text-white font-bold px-8 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-amber-900/50 border border-amber-500/30 hover:shadow-xl hover:shadow-amber-800/50 hover:scale-[1.02] disabled:hover:scale-100 disabled:opacity-50"
               disabled={submittingComment || !newComment.trim()}
             >
-              {submittingComment ? "Publicando..." : "Publicar Comentario"}
+              {submittingComment ? "Publicando..." : "✨ Publicar Comentario"}
             </button>
           </form>
         ) : (
@@ -228,30 +231,37 @@ const VinylDetail = () => {
             <p className="text-amber-700 text-center py-12">No hay comentarios aún. ¡Sé el primero en comentar!</p>
           ) : (
             comments.map((comment) => (
-              <div key={comment._id} className="bg-amber-950/50 border border-amber-800/40 rounded-xl p-5 hover:border-amber-700/50 transition-colors">
-                <div className="flex justify-between items-start mb-3">
-                  <span className="text-amber-400 font-semibold">
-                    {comment.author?.username || comment.author?.email || "Usuario"}
-                  </span>
-                  <span className="text-amber-700 text-sm">
-                    {new Date(comment.createdAt).toLocaleDateString("es-ES", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                      hour: "2-digit",
-                      minute: "2-digit"
-                    })}
-                  </span>
+              <div key={comment._id} className="bg-gradient-to-br from-amber-950/40 to-stone-950/40 border border-amber-800/50 rounded-xl p-6 hover:border-amber-600/60 transition-all duration-300 hover:shadow-lg hover:shadow-amber-900/20 backdrop-blur-sm">
+                <div className="flex justify-between items-start mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-600 to-orange-600 flex items-center justify-center text-white font-bold shadow-lg">
+                      {(comment.author?.username || comment.author?.email || "U").charAt(0).toUpperCase()}
+                    </div>
+                    <div>
+                      <span className="text-amber-300 font-semibold block">
+                        {comment.author?.username || comment.author?.email || "Usuario"}
+                      </span>
+                      <span className="text-amber-700 text-xs">
+                        {new Date(comment.createdAt).toLocaleDateString("es-ES", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit"
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                  {user && (comment.author?._id === user?._id || comment.author === user?._id) && (
+                    <button
+                      className="text-red-400 hover:text-red-300 text-sm font-medium transition-colors px-3 py-1 rounded-lg hover:bg-red-950/30"
+                      onClick={() => handleDeleteComment(comment._id)}
+                    >
+                      🗑️ Eliminar
+                    </button>
+                  )}
                 </div>
-                <p className="text-amber-200 mb-3 leading-relaxed">{comment.content}</p>
-                {user && (comment.author?._id === user?._id || comment.author === user?._id) && (
-                  <button
-                    className="text-red-400 hover:text-red-300 text-sm font-medium transition-colors"
-                    onClick={() => handleDeleteComment(comment._id)}
-                  >
-                    Eliminar
-                  </button>
-                )}
+                <p className="text-amber-100 leading-relaxed pl-13">{comment.content}</p>
               </div>
             ))
           )}

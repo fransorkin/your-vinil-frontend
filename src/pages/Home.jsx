@@ -70,7 +70,7 @@ const Home = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 min-h-screen">
       <div className="mb-8">
-        <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-200 via-orange-300 to-amber-400 bg-clip-text text-transparent mb-3">Mi Colección de Vinilos</h1>
+        <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-200 via-orange-300 to-amber-400 bg-clip-text text-transparent mb-3">Catálogo de Vinilos</h1>
         <p className="text-amber-700 text-lg">{filteredVinyls.length} vinilos encontrados</p>
       </div>
 
